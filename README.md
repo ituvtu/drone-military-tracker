@@ -17,7 +17,7 @@
   <img src="assets/tracking_demo.gif" alt="Real-Time Target Lock Tracking Demo" width="680"/>
 </p>
 <p align="center">
-  <em>Live Autonomous Guidance Demo: YOLO26-nano (FP16) + OC-SORT maintaining persistent target lock during high-speed FPV maneuvers, dynamically computing deviation vector $[\Delta X, \Delta Y]$ relative to optical center $(320, 180)$ for flight controller servoing.</em>
+  <em>Live Autonomous Guidance Demo: YOLO26-nano (FP16) + OC-SORT maintaining persistent target lock during high-speed FPV maneuvers, dynamically computing deviation vector [ΔX, ΔY] relative to optical center (320, 180) for flight controller servoing.</em>
 </p>
 
 ---
@@ -47,7 +47,7 @@ Designed for defense-tech computer vision leads and edge AI engineering teams, t
 | :--- | :--- | :--- |
 | **Edge AI & Low-SWaP Acceleration** | TensorRT FP16 / INT8 PTQ, ONNX Runtime, CUDA engine optimization, memory footprint pruning | Sub-3 ms YOLO26-nano deployment, zero-latency drop-oldest queue architecture, 552 FPS throughput |
 | **Deep Learning & Detection** | End-to-end NMS-free architectures, Task-Aligned One-to-Many dual heads, MuSGD optimization, small-target feature retention | [`notebooks/`](notebooks/), [`yolov26_baseline_run7_results/`](yolov26_baseline_run7_results/), custom hyperparameter scheduling preventing target degradation |
-| **Visual Servoing & Real-Time Tracking** | OC-SORT (OCM + OCR), linear state-space modeling, TrackEval benchmark integration, closed-loop flight telemetry | [`yolov26-tracker.py`](yolov26-tracker.py), high-angular-rate trajectory recovery (300°/s), spatial deviation vector generation $[\Delta X, \Delta Y]$ |
+| **Visual Servoing & Real-Time Tracking** | OC-SORT (OCM + OCR), linear state-space modeling, TrackEval benchmark integration, closed-loop flight telemetry | [`yolov26-tracker.py`](yolov26-tracker.py), high-angular-rate trajectory recovery (300°/s), spatial deviation vector generation [ΔX, ΔY] |
 | **Algorithmic Data Engineering** | Kinematic video decimation, Lucas-Kanade optical flow, RANSAC affine modeling, perceptual hashing (dHash), Farthest Point Sampling | [`KASFraD/`](KASFraD/), [`Deduplication/`](Deduplication/), 50.5% redundant frame elimination without losing critical terminal dive states |
 | **MLOps & Pipeline Tooling** | REST API automation, zero-shot pseudo-labeling (SAM3), leak-proof stratified dataset splitting, episode-level isolation | [`cvat_bridge_v3.py`](cvat_bridge_v3.py), [`sam3.py`](sam3.py), [`tvt-split/`](tvt-split/), [`check_split_leaks.py`](check_split_leaks.py), automated task orchestration |
 | **Concurrent Systems Programming** | Multi-threaded asynchronous producer-consumer engines, bounded lock-free queues, OS thread affinity | 3-threaded Python/C++ pipeline architecture decoupling 30 FPS camera ingestion from 552 FPS inference |
@@ -69,7 +69,7 @@ The engineering workflow spans 7 production stages categorized into two distinct
 - **Stage 01: Raw Video Ingestion & Episode Slicing ([`cutter.py`](cutter.py))**  
   Ingests multi-camera combat/simulation telemetry videos, programmatically splitting them into discrete, serialized flight episodes based on flight mission metadata and altitude profiles.
 - **Stage 02: Kinematic Spatiotemporal Decimation ([`KASFraD/`](KASFraD/))**  
-  Applies a two-tier filter: Level 1 computes 2D HSV Bhattacharyya distance across a $5 \times 5$ spatial grid; Level 2 tracks Shi-Tomasi corners via Lucas-Kanade optical flow and fits an affine RANSAC model. Automatically bypasses decimation when optical expansion indicates terminal dive ($s \ge 1.03$), eliminating 50.5% redundant flight frames.
+  Applies a two-tier filter: Level 1 computes 2D HSV Bhattacharyya distance across a 5 × 5 spatial grid; Level 2 tracks Shi-Tomasi corners via Lucas-Kanade optical flow and fits an affine RANSAC model. Automatically bypasses decimation when optical expansion indicates terminal dive (s ≥ 1.03), eliminating 50.5% redundant flight frames.
 - **Stage 03: Cloud Zero-Shot Pseudo-Annotation ([`sam3.py`](sam3.py), [`cvat_bridge_v3.py`](cvat_bridge_v3.py))**  
   Scales out zero-shot mask/bounding-box generation across cloud GPUs using Segment Anything 3 (SAM3), reformats predictions to YOLO annotation coordinates, pushes intermediate buffers to a private Hugging Face registry, and synchronizes tasks to CVAT via REST API for human verification.
 - **Stage 04: Perceptual Deduplication & Focus Filtering ([`Deduplication/`](Deduplication/))**  
@@ -81,7 +81,7 @@ The engineering workflow spans 7 production stages categorized into two distinct
 - **Stage 06: YOLO26 Model Training & PTQ Quantization ([`notebooks/`](notebooks/), [`yolov26_baseline_run7_results/`](yolov26_baseline_run7_results/))**  
   Trains YOLO26-nano utilizing the MuSGD optimizer and dual-head NMS-free architecture. Disables destructive augmentations (`scale=0.0`, `shear=0.0`) to preserve distant 10–50 px military targets. Quantizes weights via Post-Training Quantization (PTQ) to FP16 / INT8 TensorRT engines.
 - **Stage 07: Real-Time Multi-Threaded Guidance & Tracking Loop ([`yolov26-tracker.py`](yolov26-tracker.py))**  
-  Executes an asynchronous 3-threaded pipeline: Thread 1 grabs camera frames at 30 FPS; Thread 2 runs YOLO26-nano FP16 inference (1.81 ms) and OC-SORT tracking with Observation-Centric Momentum (0.95 ms); Thread 3 converts optical center deviations $[\Delta X, \Delta Y]$ into flight controller guidance commands at sub-3 ms latency.
+  Executes an asynchronous 3-threaded pipeline: Thread 1 grabs camera frames at 30 FPS; Thread 2 runs YOLO26-nano FP16 inference (1.81 ms) and OC-SORT tracking with Observation-Centric Momentum (0.95 ms); Thread 3 converts optical center deviations [ΔX, ΔY] into flight controller guidance commands at sub-3 ms latency.
 
 ---
 
@@ -105,11 +105,11 @@ The system integrates an automated cloud-to-edge data preparation and pseudo-lab
 
 ### 1. Data Engineering: KASFraD & Balanced Deduplication
 - **KASFraD (Kinematically-Adaptive Spatiotemporal Frame Decimation):**
-  - **Level 1 (Color-structural):** 2D HSV Bhattacharyya distance across a $5 \times 5$ spatial grid weighted by Canny edge density and camera elevation masks.
-  - **Level 2 (Kinematic divergence):** Shi-Tomasi feature tracking via Lucas-Kanade optical flow + RANSAC affine motion modeling. Automatically bypasses decimation during terminal attack diving ($s \ge 1.03$).
+  - **Level 1 (Color-structural):** 2D HSV Bhattacharyya distance across a 5 × 5 spatial grid weighted by Canny edge density and camera elevation masks.
+  - **Level 2 (Kinematic divergence):** Shi-Tomasi feature tracking via Lucas-Kanade optical flow + RANSAC affine motion modeling. Automatically bypasses decimation during terminal attack diving (s ≥ 1.03).
 - **dHash & Laplacian Sharpness Filter:** Computes 64-bit difference hashes and Laplacian variance; resolves near-duplicate conflicts by automatically retaining the sharpest image.
 - **Farthest Point Sampling (FPS) Negative Pool:** Balances background frames to exactly 10% in 64-bit Hamming space (85% crisp / 15% motion-blurred).
-- **Result:** **50.5% dataset reduction** (11,585 $\rightarrow$ 5,735 frames) with zero semantic information loss and elimination of background overfitting.
+- **Result:** **50.5% dataset reduction** (11,585 → 5,735 frames) with zero semantic information loss and elimination of background overfitting.
 
 ### 2. Edge Detector: YOLO26-nano (NMS-Free & MuSGD)
 - **Zero-NMS Overhead:** Replaces post-processing NMS with dual-head label assignment during training (Task-Aligned One-to-Many head) and direct regression during onboard inference (One-to-One head).
@@ -119,11 +119,11 @@ The system integrates an automated cloud-to-edge data preparation and pseudo-lab
 ### 3. Visual Tracking: Observation-Centric SORT (OC-SORT)
 - Replaces classical linear Kalman extrapolation with **Observation-Centric Momentum (OCM)** and **Observation-Centric Recovery (OCR)**.
 - Overcomes high angular camera rates (up to 300°/s) and temporary occlusions under foliage/smoke.
-- Trajectory fragmentation cut in half compared to ByteTrack ($4 \rightarrow 2$), improving **HOTA to 52.12%**.
+- Trajectory fragmentation cut in half compared to ByteTrack (4 → 2), improving **HOTA to 52.12%**.
 
 ### 4. 3-Threaded Zero-Lag Asynchronous Engine
-- Enforces a **drop-oldest queue policy ($N=1$)** between camera intake and inference.
-- Prevents queue backlog build-up, guaranteeing that the flight controller receives fresh spatial deviation coordinates $[\Delta X, \Delta Y]$ relative to optical center $(320, 180)$ with **2.761 ms total latency** (against a 40–50 ms sensorimotor budget).
+- Enforces a **drop-oldest queue policy (N=1)** between camera intake and inference.
+- Prevents queue backlog build-up, guaranteeing that the flight controller receives fresh spatial deviation coordinates [ΔX, ΔY] relative to optical center (320, 180) with **2.761 ms total latency** (against a 40–50 ms sensorimotor budget).
 
 ---
 
@@ -132,20 +132,20 @@ The system integrates an automated cloud-to-edge data preparation and pseudo-lab
 Every architectural choice was driven by the strict physical constraints of combat FPV flight: low compute budget (Jetson Orin Nano / RK3588, <15W), extreme angular dynamics (up to 300°/s), and real-time guidance loop deadlines:
 
 ### 1. Why KASFraD instead of Uniform Frame Decimation?
-- **Trade-off:** Standard uniform decimation (e.g. saving every $k$-th frame) either oversamples redundant high-altitude cruise frames or undersamples the terminal attack dive.
-- **Engineering Decision:** KASFraD couples 2D HSV Bhattacharyya distance with Lucas-Kanade optical flow affine divergence. When the drone initiates terminal diving, optical expansion causes scale factor $s \ge 1.03$, which dynamically halts decimation and preserves 100% of attack frames. At cruise altitude, it discards 50.5% of redundant frames, cutting annotation cost in half without sacrificing terminal accuracy.
+- **Trade-off:** Standard uniform decimation (e.g. saving every k-th frame) either oversamples redundant high-altitude cruise frames or undersamples the terminal attack dive.
+- **Engineering Decision:** KASFraD couples 2D HSV Bhattacharyya distance with Lucas-Kanade optical flow affine divergence. When the drone initiates terminal diving, optical expansion causes scale factor s ≥ 1.03, which dynamically halts decimation and preserves 100% of attack frames. At cruise altitude, it discards 50.5% of redundant frames, cutting annotation cost in half without sacrificing terminal accuracy.
 
 ### 2. Why NMS-Free YOLO26 over Standard YOLOv8 with Post-Processing NMS?
-- **Trade-off:** Traditional Non-Maximum Suppression (NMS) has $\mathcal{O}(N^2)$ worst-case time complexity, executes sequentially on CPU or incurs GPU sync stalls, creating non-deterministic latency jitter (adding 10–25 ms when processing cluttered scenes).
+- **Trade-off:** Traditional Non-Maximum Suppression (NMS) has O(N²) worst-case time complexity, executes sequentially on CPU or incurs GPU sync stalls, creating non-deterministic latency jitter (adding 10–25 ms when processing cluttered scenes).
 - **Engineering Decision:** YOLO26 employs dual label assignment during training (Task-Aligned One-to-Many head) and direct regression during inference (One-to-One head). The detector outputs final bounding boxes directly without NMS overhead, providing a deterministic 1.81 ms GPU execution time and eliminating CPU-GPU memory transfer bottlenecks.
 
 ### 3. Why OC-SORT instead of ByteTrack for FPV Dynamics?
-- **Trade-off:** ByteTrack relies on classical linear Kalman filtering assuming constant velocity. FPV drones perform aggressive yaw/pitch rotations ($\omega \ge 300^\circ/\text{s}$) and banking maneuvers where linear motion assumptions fail, causing track loss and ID switches.
+- **Trade-off:** ByteTrack relies on classical linear Kalman filtering assuming constant velocity. FPV drones perform aggressive yaw/pitch rotations (ω ≥ 300°/s) and banking maneuvers where linear motion assumptions fail, causing track loss and ID switches.
 - **Engineering Decision:** OC-SORT introduces Observation-Centric Momentum (OCM), which calculates directional velocity vectors directly over observation pairs, and Observation-Centric Recovery (OCR), which recovers lost tracks through re-association upon target re-emergence. On test sequences, OC-SORT improved HOTA from 45.69% to 52.12% (+6.43%) and halved trajectory fragmentations from 4 to 2.
 
-### 4. Why Drop-Oldest Queue ($N=1$) instead of Standard FIFO Queue?
+### 4. Why Drop-Oldest Queue (N=1) instead of Standard FIFO Queue?
 - **Trade-off:** A standard First-In-First-Out (FIFO) queue guarantees that every frame is processed, but under burst load or sensor frame pacing irregularities, frames accumulate in the queue.
-- **Engineering Decision:** In terminal guidance, stale information is fatal. At a dive speed of 100 km/h (27.8 m/s), a 100 ms queue backlog translates to 2.78 meters of physical flight drift, causing terminal overshoot. A bounded drop-oldest queue ($N=1$) guarantees that the detector always receives the latest acquired camera frame, holding end-to-end guidance latency to 2.761 ms.
+- **Engineering Decision:** In terminal guidance, stale information is fatal. At a dive speed of 100 km/h (27.8 m/s), a 100 ms queue backlog translates to 2.78 meters of physical flight drift, causing terminal overshoot. A bounded drop-oldest queue (N=1) guarantees that the detector always receives the latest acquired camera frame, holding end-to-end guidance latency to 2.761 ms.
 
 ---
 
