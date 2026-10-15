@@ -1,0 +1,69 @@
+{
+    "metadata": {
+        "dataset_root_dir": "D:\\Ivan\\Repos\\yolo-mil-detector\\dataset_v22",
+        "dataset_version": "v22",
+        "detected_classes": [
+            "antiair",
+            "bmp",
+            "cars",
+            "howitzer",
+            "tank",
+            "truck"
+        ],
+        "detected_maps": [
+            "map_unknown"
+        ],
+        "detected_splits": [
+            "dataset"
+        ],
+        "total_episodes": 45,
+        "total_frames": 11585
+    },
+    "statistics": {
+        "episodes_by_split": {
+            "dataset": 45
+        },
+        "frames_by_split": {
+            "dataset": 11585
+        },
+        "annotated_frames_by_split": {
+            "dataset": 8220
+        },
+        "negative_frames_by_split": {
+            "dataset": 3365
+        },
+        "negatives_by_split": {
+            "dataset": 2
+        },
+        "class_distribution": {
+            "antiair": {
+                "dataset": 1706
+            },
+            "bmp": {
+                "dataset": 1465
+            },
+            "cars": {
+                "dataset": 1759
+            },
+            "howitzer": {
+                "dataset": 1027
+            },
+            "tank": {
+                "dataset": 1692
+            },
+            "truck": {
+                "dataset": 2184
+            }
+        },
+        "map_episodes_distribution": {
+            "map_unknown": {
+                "dataset": 45
+            }
+        },
+        "map_frames_distribution": {
+            "map_unknown": {
+                "dataset": 11585
+            }
+        }
+    }
+}

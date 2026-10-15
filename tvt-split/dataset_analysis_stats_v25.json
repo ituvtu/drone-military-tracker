@@ -1,0 +1,67 @@
+{
+    "metadata": {
+        "dataset_root_dir": "D:\\Ivan\\Repos\\yolo-mil-detector\\dataset_v25_640",
+        "dataset_version": "v25",
+        "detected_classes": [
+            "military_object"
+        ],
+        "detected_maps": [
+            "map_unknown"
+        ],
+        "detected_splits": [
+            "test",
+            "train",
+            "val"
+        ],
+        "total_episodes": 68,
+        "total_frames": 5735
+    },
+    "statistics": {
+        "episodes_by_split": {
+            "test": 17,
+            "train": 36,
+            "val": 15
+        },
+        "frames_by_split": {
+            "test": 759,
+            "train": 4177,
+            "val": 799
+        },
+        "annotated_frames_by_split": {
+            "test": 664,
+            "train": 3784,
+            "val": 714
+        },
+        "negative_frames_by_split": {
+            "test": 95,
+            "train": 393,
+            "val": 85
+        },
+        "negatives_by_split": {
+            "test": 0,
+            "train": 2,
+            "val": 0
+        },
+        "class_distribution": {
+            "military_object": {
+                "test": 748,
+                "train": 4179,
+                "val": 734
+            }
+        },
+        "map_episodes_distribution": {
+            "map_unknown": {
+                "test": 17,
+                "train": 36,
+                "val": 15
+            }
+        },
+        "map_frames_distribution": {
+            "map_unknown": {
+                "test": 759,
+                "train": 4177,
+                "val": 799
+            }
+        }
+    }
+}

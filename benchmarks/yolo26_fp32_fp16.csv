@@ -1,0 +1,4 @@
+model_config,precision_format,mAP50,mAP50_95,precision,recall,latency_ms,fps
+YOLO26-nano,FP32,0.7587,0.4377,0.8395,0.6845,2.31,433.7
+YOLO26-nano,FP16,0.7563,0.4367,0.8378,0.6845,1.81,552.7
+Delta (FP16 vs FP32),-, -0.24% abs, -0.10% abs, -0.17% abs, 0.00% abs, -21.6% (faster), +27.4% (throughput)

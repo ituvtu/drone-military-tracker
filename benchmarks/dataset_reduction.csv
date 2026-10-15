@@ -1,0 +1,4 @@
+dataset_stage,total_frames,positive_annotated_frames,negative_background_frames,pos_neg_ratio,reduction_rate
+Initial Decimated Dataset (v22),11585,8220,3365,71.0 / 29.0,0.0%
+Small Box Removal (<10px / <20px) (v23),9208,5843,3365,63.5 / 36.5,20.5%
+Optimized & Balanced Dataset (v24/v25),5735,5162,573,90.0 / 10.0,50.5%

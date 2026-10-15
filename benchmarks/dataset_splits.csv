@@ -1,0 +1,5 @@
+split,episodes,episodes_pct,frames,frames_pct,annotated_frames,negative_frames,instances_military_object
+Train,36,52.9%,4177,72.8%,3784 (90.6%),393 (9.4%),4179 (73.8%)
+Val,15,22.1%,799,13.9%,714 (89.4%),85 (10.6%),734 (13.0%)
+Test,17,25.0%,759,13.2%,664 (87.5%),95 (12.5%),748 (13.2%)
+Total,68,100.0%,5735,100.0%,5162 (90.0%),573 (10.0%),5661 (100.0%)

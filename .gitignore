@@ -1,0 +1,55 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Weights & models (keep public repo clean from sensitive binaries)
+*.pt
+*.pth
+*.onnx
+*.engine
+*.bin
+weights/
+runs/
+
+# Datasets and raw media
+*.mp4
+*.avi
+*.mkv
+*.zip
+*.tar.gz
+dataset*/
+
+# IDE
+.vscode/
+.idea/
+.ipynb_checkpoints/

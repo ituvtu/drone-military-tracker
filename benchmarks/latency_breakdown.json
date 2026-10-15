@@ -1,0 +1,22 @@
+{
+  "benchmark_environment": {
+    "hardware_testbed": "NVIDIA T4 16GB GDDR6",
+    "target_edge_platform": "NVIDIA Jetson Orin Nano / Orange Pi 5 (RK3588)",
+    "input_resolution": "640x360",
+    "batch_size": 1,
+    "framework": "Ultralytics + PyTorch CUDA (FP16)"
+  },
+  "pipeline_latencies_ms": {
+    "frame_capture_thread": 0.05,
+    "yolo26_nano_fp16_inference": 1.81,
+    "oc_sort_association": 0.951,
+    "vector_calc_and_dispatch": 0.001,
+    "total_sequential_latency_ms": 2.761,
+    "total_fps_capability": 552.7
+  },
+  "real_time_budget_evaluation": {
+    "flight_controller_budget_ms": "40.0 - 50.0",
+    "achieved_system_latency_ms": 2.761,
+    "latency_margin_pct": "+93.1% safety margin within 40ms envelope"
+  }
+}

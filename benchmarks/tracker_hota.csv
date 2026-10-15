@@ -1,0 +1,4 @@
+tracker_configuration,HOTA_pct,DetA_pct,AssA_pct,IDF1_pct,MOTA_pct,MOTP_pct,IDSW,Frag,MT,ML
+ByteTrack (Optimal),45.69,50.28,41.60,60.98,65.22,72.42,4,4,1,0
+OC-SORT (Optimal),52.12,56.48,48.15,65.56,65.94,81.49,4,2,1,0
+OC-SORT (Custom High-Buffer),50.12,60.34,41.69,62.10,69.56,81.55,6,2,1,0
